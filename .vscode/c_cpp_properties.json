@@ -1,0 +1,19 @@
+{
+  "configurations": [
+    {
+      "name": "Amiga-cross",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "/Users/paulbertelink/Desktop/NDK3.2R4/Include_H",
+        "/Users/paulbertelink/Desktop/NDK3.2R4/Include_H/proto",
+        "/Users/paulbertelink/Desktop/NDK3.2R4/Include_H/exec",
+        "/Users/paulbertelink/Desktop/NDK3.2R4/Include_I"
+      ],
+      "defines": [],
+      "compilerPath": "/opt/homebrew/bin/m68k-elf-gcc",
+      "cStandard": "c11",
+      "intelliSenseMode": "gcc-x64"
+    }
+  ],
+  "version": 4
+}

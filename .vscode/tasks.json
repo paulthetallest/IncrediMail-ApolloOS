@@ -1,0 +1,50 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build IncrediMail ApolloOS (MUI5)",
+            "type": "shell",
+            "command": "m68k-amigaos-gcc",
+            "args": [
+                "-m68040",
+                "-O2",
+                "${workspaceFolder}/incredimail.c",
+                "-o",
+                "${workspaceFolder}/IncrediMail",
+                "-lamiga"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

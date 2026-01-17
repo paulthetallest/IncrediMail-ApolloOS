@@ -1,0 +1,58 @@
+name: Build IncrediMail (m68k)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git build-essential curl rsync unzip
+
+      - name: Clone m68k toolchain builder
+        run: git clone https://github.com/rjnorthrow/m68k-toolchain.git toolchain
+
+      - name: Restore Docker buildx cache
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: buildx-cache-${{ github.ref }}-${{ github.sha }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build toolchain Docker image (cached)
+        uses: docker/build-push-action@v4
+        with:
+          context: ./toolchain
+          push: false
+          tags: m68k-toolchain:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
+
+      - name: Build IncrediMail inside toolchain container
+        run: |
+          docker run --rm -v "$PWD":/work -w /work m68k-toolchain:latest /bin/bash -lc '
+            export PATH=/cross/bin:$PATH:/usr/local/bin
+            make clean
+            make CC=m68k-amigaos-gcc
+          '
+
+      - name: Upload built binary
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: IncrediMail-m68k
+          path: IncrediMail
