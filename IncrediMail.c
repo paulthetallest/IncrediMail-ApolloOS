@@ -1,3 +1,5 @@
+#include "compat/stdint.h"
+
 #if defined(__has_include)
   /* Prefer proto/ headers when available (AmigaOS4 style), otherwise fall back */
   #if __has_include(<proto/exec.h>)
